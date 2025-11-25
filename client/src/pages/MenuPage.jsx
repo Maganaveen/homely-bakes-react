@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+const API_URL = import.meta.env.VITE_API_URL; // e.g. https://homely-bakes.onrender.com
+
 
 const MenuPage = () => {
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ const MenuPage = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await fetch('/api/cakes');
+        const response = await fetch(`${API_URL}/cakes`);
         if (response.ok) {
           const data = await response.json();
           setItems(data);
