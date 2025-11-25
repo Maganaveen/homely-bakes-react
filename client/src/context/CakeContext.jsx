@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const CakeContext = createContext();
 
@@ -17,7 +18,7 @@ export const CakeProvider = ({ children }) => {
 
   const fetchCakes = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/cakes');
+      const response = await axios.get(`${API_URL}/api/cakes`);
       setCakes(response.data);
     } catch (error) {
       console.error('Error fetching cakes:', error);
@@ -28,7 +29,7 @@ export const CakeProvider = ({ children }) => {
 
   const placeOrder = async (orderData) => {
     try {
-      const response = await axios.post('http://localhost:5000/api/orders', orderData);
+      const response = await axios.post(`${API_URL}/api/orders`, orderData);
       return response.data;
     } catch (error) {
       throw error;

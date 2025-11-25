@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const CartContext = createContext();
 
@@ -19,7 +20,7 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = async (cake, userId) => {
     try {
-      await axios.post('http://localhost:5000/api/cart/add', {
+      await axios.post(`${API_URL}/api/cart/add`, {
         userId,
         cakeId: cake.id || cake._id,
         name: cake.name,
@@ -41,7 +42,7 @@ export const CartProvider = ({ children }) => {
   const fetchCart = async (userId) => {
     if (!userId) return;
     try {
-      const response = await axios.get(`http://localhost:5000/api/cart/${userId}`);
+      const response = await axios.get(`${API_URL}/api/cart/${userId}`);
       setCartItems(response.data.items || []);
       setCartCount(response.data.items?.reduce((sum, item) => sum + item.quantity, 0) || 0);
     } catch (error) {
@@ -51,7 +52,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = async (userId, cakeId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/cart/${userId}/${cakeId}`);
+      await axios.delete(`${API_URL}/api/cart/${userId}/${cakeId}`);
       fetchCart(userId);
     } catch (error) {
       console.error('Error removing from cart:', error);
